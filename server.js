@@ -1,4 +1,5 @@
 const express = require('express');
+const { sequelize } = require('./models/Tag');
 const routes = require('./routes');
 // import sequelize connection
 
@@ -11,6 +12,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 // sync sequelize models to the database, then turn on the server
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}!`);
+// when I do true ... I can reset the database modals (tables) if I made changes to them? ... this wouldn't reset the seeds though? Just the tables? equivalent to drop table if already exists?
+sequelize.sync({force: false}).then(() => { 
+  app.listen(PORT, () => 
+    console.log(`App listening on port ${PORT}!`));
 });
+
+
